@@ -1,0 +1,25 @@
+body {
+    font-family: sans-serif;
+}
+
+header {
+    text-align: center;
+    padding: 20px;
+    background-color: #f0f0f0;
+}
+
+main {
+    padding: 20px;
+}
+
+#name, #startBtn {
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+#chatbox {
+    border: 1px solid #ccc;
+    padding: 10px;
+    height: 300px;
+    overflow-y: scroll;
+}
