@@ -22,4 +22,13 @@ main {
     padding: 10px;
     height: 300px;
     overflow-y: scroll;
+    position: relative; /* Chatbox needs to be a positioning context */
+}
+
+#typingIndicator {
+    position: absolute; /* Keep it absolute within the chatbox */
+    bottom: 10px;
+    right: 10px;
+    font-style: italic;
+    color: gray;
 }

@@ -1,28 +1,28 @@
 const nameInput = document.getElementById('name');
 const startBtn = document.getElementById('startBtn');
 const chatbox = document.getElementById('chatbox');
-
-let talkingToName = ''
+let talkingToName = '';
+let conversationStarted = false; // Flag to track conversation status
 
 startBtn.addEventListener('click', () => {
-    talkingToName = nameInput.value;
-    // Here you would call your backend API to start the conversation with Gemini 
-    // and provide the chosen name. 
-    // For demonstration purposes, we'll just simulate a response.
-    const response = `Hello, I am ${talkingToName}. How can I help you today?`;
-    displayMessage(response, talkingToName);
-
-    // Add input field for user messages after conversation starts
+  if (!conversationStarted) { // Check if conversation has already started
     const userInput = document.createElement('input');
     userInput.type = 'text';
     userInput.id = 'userInput';
     document.body.appendChild(userInput);
 
-    // Add a button to send the user message
     const sendBtn = document.createElement('button');
     sendBtn.innerText = 'Send';
     sendBtn.addEventListener('click', sendMessage);
     document.body.appendChild(sendBtn);
+
+    conversationStarted = true; // Set flag to true
+  } 
+
+  chatbox.innerHTML = ''; // This line clears the chatbox content
+  talkingToName = nameInput.value;
+  const response = `Hello, I am ${talkingToName}. What would you like to talk about?`;
+  displayMessage(response, talkingToName);
 });
 
 function sendMessage() {
@@ -52,7 +52,10 @@ function sendMessage() {
 }
 
 function displayMessage(message, sender) {
-    const messageElement = document.createElement('p');
-    messageElement.innerText = `${sender}: ${message}`;
-    chatbox.appendChild(messageElement);
+  const messageElement = document.createElement('p');
+  messageElement.innerText = `${sender}: ${message}`;
+  chatbox.appendChild(messageElement);
+
+  // Scroll to the bottom of the chatbox
+  chatbox.scrollTop = chatbox.scrollHeight; 
 }
