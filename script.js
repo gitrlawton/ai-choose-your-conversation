@@ -4,8 +4,17 @@ const chatbox = document.getElementById('chatbox');
 let talkingToName = '';
 let conversationStarted = false; // Flag to track conversation status
 
+const confirmationPopup = document.getElementById('confirmationPopup');
+const confirmYesBtn = document.getElementById('confirmYesBtn');
+const confirmCancelBtn = document.getElementById('confirmCancelBtn');
+
 startBtn.addEventListener('click', () => {
-  if (!conversationStarted) { // Check if conversation has already started
+  if (conversationStarted) {
+    confirmationPopup.classList.remove('hidden'); // Show the popup
+  } 
+  else { 
+    // Conversation has already started.
+    const inputArea = document.getElementById('input-area'); // Get the input area element
     const userInput = document.createElement('input');
     userInput.type = 'text';
     userInput.id = 'userInput';
@@ -14,15 +23,30 @@ startBtn.addEventListener('click', () => {
     const sendBtn = document.createElement('button');
     sendBtn.innerText = 'Send';
     sendBtn.addEventListener('click', sendMessage);
-    document.body.appendChild(sendBtn);
+    inputArea.appendChild(userInput);
+    inputArea.appendChild(sendBtn); 
 
     conversationStarted = true; // Set flag to true
-  } 
 
+    chatbox.innerHTML = ''; // This line clears the chatbox content
+    talkingToName = nameInput.value;
+    const response = `Hello, I am ${talkingToName}. What would you like to talk about?`;
+    displayMessage(response, talkingToName);
+  } 
+});
+
+confirmYesBtn.addEventListener('click', () => {
+  // User confirmed - start a new conversation
+  confirmationPopup.classList.add('hidden'); // Hide the popup
+  // Code for clearing chatbox and starting conversation
   chatbox.innerHTML = ''; // This line clears the chatbox content
   talkingToName = nameInput.value;
   const response = `Hello, I am ${talkingToName}. What would you like to talk about?`;
   displayMessage(response, talkingToName);
+});
+
+confirmCancelBtn.addEventListener('click', () => {
+  confirmationPopup.classList.add('hidden'); // Hide the popup
 });
 
 function sendMessage() {
@@ -30,7 +54,12 @@ function sendMessage() {
   userInput.value = ''; // Clear the input field
   displayMessage(message, 'Me'); // Display user message
   
-  // Send message to backend API (replace with your actual API call)
+  // Display "Waiting for Gemini to reply..." message
+  const waitingMessage = document.getElementById('waitingMessage');
+  waitingMessage.style.display = 'inline';
+  waitingMessage.innerText = talkingToName + " is typing..."
+
+  // Send message to backend API
   fetch('http://localhost:5000/api/ask-gemini', {
     method: 'POST',
     headers: {
@@ -43,11 +72,15 @@ function sendMessage() {
   })
   .then(response => response.json())
   .then(data => {
+    // Hide "Waiting for Gemini to reply..." message
+    waitingMessage.style.display = 'none';
+
     displayMessage(data.response, talkingToName); // Display Gemini's response
   })
   .catch(error => {
     console.error('Error fetching response:', error);
-    // Handle error, e.g., display an error message to the user
+    // Hide "Waiting for Gemini to reply..." message on error
+    waitingMessage.style.display = 'none';
   });
 }
 

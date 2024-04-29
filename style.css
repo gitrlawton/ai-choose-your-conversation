@@ -9,7 +9,10 @@ header {
 }
 
 main {
-    padding: 20px;
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-bottom: 0;
+    padding-left: 20px;
 }
 
 #name, #startBtn {
@@ -23,12 +26,47 @@ main {
     height: 300px;
     overflow-y: scroll;
     position: relative; /* Chatbox needs to be a positioning context */
+    display: flex;
+    flex-direction: column;
 }
 
-#typingIndicator {
-    position: absolute; /* Keep it absolute within the chatbox */
-    bottom: 10px;
-    right: 10px;
+#input-area {
+    display: flex; /* Allow horizontal arrangement of input and button */
+}
+
+#userInput {
+    width: 70%; /* Input takes up full available width */
+    box-sizing: border-box;
+}
+
+
+#waitingMessage {
+    order: 1;
     font-style: italic;
     color: gray;
+    display: none; /* Initially hide the message */
+    margin-top: 3px;
+    margin-left: 20px; /* Add space between button and message */
+    position: absolute;
+    right: 30px;
+}
+
+p {
+    margin-block-end: 2px;
+    margin-block-start: 2px;
+}
+
+.hidden {
+    display: none; 
+}
+
+#confirmationPopup {
+    position: fixed; /* or absolute depending on your needs */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center the popup */
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 20px;
+    z-index: 10; /* Ensure popup is above other elements */
 }
