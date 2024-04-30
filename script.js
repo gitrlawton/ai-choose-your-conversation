@@ -32,6 +32,13 @@ startBtn.addEventListener('click', () => {
     talkingToName = nameInput.value;
     const response = `Hello, I am ${talkingToName}. What would you like to talk about?`;
     displayMessage(response, talkingToName);
+
+    // Add an event listener for the "keyup" event on the userInput element
+    userInput.addEventListener('keyup', (event) => {
+      if (event.key === 'Enter') {
+          sendMessage(); // Call the sendMessage function when Enter is pressed
+      }
+    });
   } 
 });
 
@@ -48,6 +55,7 @@ confirmYesBtn.addEventListener('click', () => {
 confirmCancelBtn.addEventListener('click', () => {
   confirmationPopup.classList.add('hidden'); // Hide the popup
 });
+
 
 function sendMessage() {
   const message = userInput.value;
@@ -86,7 +94,19 @@ function sendMessage() {
 
 function displayMessage(message, sender) {
   const messageElement = document.createElement('p');
-  messageElement.innerText = `${sender}: ${message}`;
+  
+  // Create a span element for the sender's name and make it bold
+  const senderSpan = document.createElement('span');
+  senderSpan.style.fontWeight = 'bold';
+  senderSpan.textContent = sender + ': '; // Add colon after the name
+
+  // Create a text node for the message content
+  const messageText = document.createTextNode(message);
+
+  // Append the sender span and message text to the message element
+  messageElement.appendChild(senderSpan);
+  messageElement.appendChild(messageText);
+
   chatbox.appendChild(messageElement);
 
   // Scroll to the bottom of the chatbox
