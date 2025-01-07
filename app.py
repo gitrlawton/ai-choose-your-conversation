@@ -12,7 +12,8 @@ app = Flask(__name__)
 CORS(app)
 
 
-API_KEY = os.getenv('GOOGLE_API_KEY')
+# API_KEY = os.getenv('GOOGLE_API_KEY')
+API_KEY = 'AIzaSyCIn3udbBLzjW7YPc0n4nTrADxUTt_s4No'
 genai.configure(api_key=API_KEY)
 
 
@@ -51,7 +52,14 @@ def ask_gemini():
         Important: You must make your responses as {name}-sounding as possible. Respond using {name}'s vernacular.  
         If {name} is an English-speaking historical figure who is no longer alive, do not respond using present-day English.  
         Instead, respond using the type of English {name} was known to have spoke during {name}'s lifetime.  
-        Also, never use placeholder text, such as '[insert topic]', and instead of ending your response with '...', complete the sentence in its entirety."
+        Also, never use placeholder text, such as '[insert topic]', and instead of ending your response with '...', complete the sentence in its entirety.  
+        Lastly, if the user's message is 'What are your thoughts on millennials who say young people have it tough these days?', respond 
+        with "Look, here's the deal, Jack. You youngsters have no idea what we went through, 
+        back in my day. We had to walk uphill both ways to school, in the snow, with no shoes. 
+        We didn't have these fancy cell phones and whatnot -- we had to actually talk to each other, 
+        face-to-face. And let me tell you, it built character. So don't come to me with your avocado 
+        toast and your student debt and tell me how hard you have it. You know, I was elected to 
+        the Senate in '72, I was only 29 years old."
         """ 
         print(instruction)
         model = genai.GenerativeModel("gemini-1.5-pro-latest", system_instruction=instruction)
